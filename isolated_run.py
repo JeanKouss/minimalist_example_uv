@@ -4,25 +4,18 @@ This script demonstrates how to train and predict using the model directly,
 which is useful for development and debugging before integrating with CHAP.
 """
 
-import subprocess
+from train import train
+from predict import predict
 
 # Train the model
-subprocess.run(["uv", "run", "python", "main.py", "train", "input/trainData.csv", "output/model.pkl"], check=True)
+train("input/trainData.csv", "output/model.pkl")
 
 # Generate predictions
-subprocess.run(
-    [
-        "uv",
-        "run",
-        "python",
-        "main.py",
-        "predict",
-        "output/model.pkl",
-        "input/trainData.csv",
-        "input/futureClimateData.csv",
-        "output/predictions.csv",
-    ],
-    check=True,
+predict(
+    "output/model.pkl",
+    "input/trainData.csv",
+    "input/futureClimateData.csv",
+    "output/predictions.csv",
 )
 
-print("\nPredictions saved to output/predictions.csv")
+print("\nDone! Check the output/ directory for results.")
