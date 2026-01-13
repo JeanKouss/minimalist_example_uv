@@ -43,10 +43,17 @@ Before getting a new model to work as part of CHAP, it can be useful to develop 
 To quickly test everything works, run:
 
 ```bash
-python isolated_run.py
+uv run python isolated_run.py
 ```
 
-This will train the model and generate predictions using the sample data. You can also run the commands manually:
+This will train the model and generate predictions using the sample data. After running, check the `output/` directory:
+
+- `output/model.pkl` - the trained model
+- `output/predictions.csv` - predicted disease cases
+
+Open `predictions.csv` to see the forecasted values for each time period and location.
+
+You can also run the commands manually:
 
 ### Training the model
 
@@ -121,17 +128,6 @@ features = df[["rainfall", "mean_temperature"]]
 features = df[["rainfall"]]
 ```
 
-### Add data preprocessing
-
-Add preprocessing steps like scaling:
-
-```python
-from sklearn.preprocessing import StandardScaler
-
-scaler = StandardScaler()
-features_scaled = scaler.fit_transform(features)
-```
-
 ### Test your changes
 
 After making changes, run the isolated test to verify everything works:
@@ -201,23 +197,4 @@ Or if you have a local CSV dataset:
 
 ```bash
 chap evaluate --model-name /path/to/minimalist_example_uv --dataset-csv your_data.csv --report-filename report.pdf
-```
-
-## Creating your own model
-
-You can use this example as a starting point for your own model. The key files are:
-
-- `MLproject` - Defines how CHAP interacts with your model
-- `pyproject.toml` - Lists your Python dependencies
-- `train.py` - Contains the training logic
-- `predict.py` - Contains the prediction logic
-- `isolated_run.py` - Script to test the model without CHAP
-- `input/` - Sample training and future climate data
-
-To create a new model from scratch, you can use the `chap init` command:
-
-```bash
-chap init my_new_model
-cd my_new_model
-python isolated_run.py  # Test the model
 ```
